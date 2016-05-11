@@ -1,0 +1,7 @@
+/opt/foo/log/foo.log {
+  daily
+  rotate 30e
+  missingok
+  notifempty
+  create 644 root root
+}
