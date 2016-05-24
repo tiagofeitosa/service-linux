@@ -6,6 +6,17 @@
 
 PATH="$PATH:/usr/bin:/bin"
 
+status() {
+  PROCCESS=`ps aux | grep foo.jar | grep java | grep -v grep`
+  if [ "$PROCCESS" == "" ]; then
+    echo "0" 
+  else
+    PID=`echo $PROCCESS_WD | cut -d " " -f2`
+    echo "$PID"
+  fi
+
+}
+
 start() {
 
   PROCCESS=`ps aux | grep foo.jar | grep java | grep -v grep`
@@ -122,5 +133,9 @@ case $1 in
 
   restart )
     restart
+    ;;
+
+  status )
+    status
     ;;
 esac
