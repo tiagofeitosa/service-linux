@@ -7,18 +7,18 @@
 PATH="$PATH:/usr/bin:/bin"
 
 status() {
-  PROCCESS=`ps aux | grep foo.jar | grep java | grep -v grep`
+  PROCCESS=`ps aux | grep serial32bits | grep -v grep | grep -v sudo`
   if [ "$PROCCESS" == "" ]; then
     echo "0"
   else
-    PID=`echo $PROCCESS_WD | cut -d " " -f2`
-    echo "$PID"
+    PID=`echo $PROCCESS | cut -d " " -f2`
+    echo $PID
   fi
 }
 
 start() {
 
-  PROCCESS=`ps aux | grep foo.jar | grep java | grep -v grep`
+  PROCCESS=`ps aux | grep serial32bits | grep -v grep | grep -v sudo`
 
   if [ "$PROCCESS" == "" ]; then
     cd /opt/services/foo/
@@ -26,17 +26,20 @@ start() {
     cd -
     if [ $? -eq 0 ]; then
       echo "[ INFO ] Service foo is running ("$(date)")" >> /opt/services/foo/log/foo.log
+      echo -e "\033[01;32m[  OK  ]\033[00;37m"
     else
       echo "[ ERRO ] Service foo is not running ("$(date)")" >> /opt/services/foo/log/foo.log
+      echo -e "\033[01;31m[ ERRO ]\033[00;37m"
     fi
   else
     echo "[ WARN ] Service foo is already running ("$(date)")" >> /opt/services/foo/log/foo.log
+    echo -e "\033[01;33m[ WARN ]\033[00;37m Service foo is already running"
   fi
 }
 
 stop() {
 
-  PROCCESS=`ps aux | grep foo.jar | grep java | grep -v grep`
+  PROCCESS=`ps aux | grep serial32bits | grep -v grep | grep -v sudo`
   PROCCESS_WD=`ps aux | grep watchdog-foo.sh | grep -v service | grep -v grep`
 
   if [ "$PROCCESS_WD" != "" ]; then
@@ -44,11 +47,14 @@ stop() {
     kill -9 $PID_WD
     if [ $? -eq 0 ]; then
       echo "[ INFO ] watchdog-foo is not running ("$(date)")" >> /opt/services/foo/log/foo.log
+      echo -e "\033[01;32m[  OK  ]\033[00;37m"
     else
       echo "[ ERRO ] watchdog-foo fail on stop ("$(date)")" >> /opt/services/foo/log/foo.log
+      echo -e "\033[01;31m[ ERRO ]\033[00;37m"
     fi
   else
     echo "[ WARN ] watchdog-foo is already stopped ("$(date)")" >> /opt/services/foo/log/foo.log
+    echo -e "\033[01;33m[ WARN ]\033[00;37m watchdog-foo is already stopped"
   fi
 
   if [ "$PROCCESS" != "" ]; then
@@ -56,11 +62,13 @@ stop() {
     kill -9 $PID
     if [ $? -eq 0 ]; then
       echo "[ INFO ] Service foo is stopped ("$(date)")" >> /opt/services/foo/log/foo.log
+      echo -e "\033[01;32m[  OK  ]\033[00;37m"
     else
       echo "[ ERRO ] Service foo fail on stop ("$(date)")" >> /opt/services/foo/log/foo.log
     fi
   else
     echo "[ WARN ] Service foo is already stopped ("$(date)")" >> /opt/services/foo/log/foo.log
+    echo -e "\033[01;33m[ WARN ]\033[00;37m Service foo is already stopped"
   fi
 }
 
@@ -82,7 +90,7 @@ install() {
 
   # Copy all files in installation package to the path of the service
   echo "Copying service files to the service-foo directory ..."
-  cp * /opt/services/foo/
+  cp -r * /opt/services/foo/
   if [ $? -eq 0 ]; then
     echo -e "\033[01;32m[  OK  ]\033[00;37m"
   else
