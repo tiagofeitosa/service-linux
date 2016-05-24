@@ -11,16 +11,16 @@ start() {
   PROCCESS=`ps aux | grep foo.jar | grep java | grep -v grep`
 
   if [ "$PROCCESS" == "" ]; then
-    cd /opt/foo/
+    cd /opt/services/foo/
     ./watchdog-foo.sh &
     cd -
     if [ $? -eq 0 ]; then
-      echo "[ INFO ] Service foo is running ("$(date)")" >> /opt/foo/log/foo.log
+      echo "[ INFO ] Service foo is running ("$(date)")" >> /opt/services/foo/log/foo.log
     else
-      echo "[ ERRO ] Service foo is not running ("$(date)")" >> /opt/foo/log/foo.log
+      echo "[ ERRO ] Service foo is not running ("$(date)")" >> /opt/services/foo/log/foo.log
     fi
   else
-    echo "[ WARN ] Service foo is already running ("$(date)")" >> /opt/foo/log/foo.log
+    echo "[ WARN ] Service foo is already running ("$(date)")" >> /opt/services/foo/log/foo.log
   fi
 }
 
@@ -33,24 +33,24 @@ stop() {
     PID_WD=`echo $PROCCESS_WD | cut -d " " -f2`
     kill -9 $PID_WD
     if [ $? -eq 0 ]; then
-      echo "[ INFO ] watchdog-foo is not running ("$(date)")" >> /opt/foo/log/foo.log
+      echo "[ INFO ] watchdog-foo is not running ("$(date)")" >> /opt/services/foo/log/foo.log
     else
-      echo "[ ERRO ] watchdog-foo fail on stop ("$(date)")" >> /opt/foo/log/foo.log
+      echo "[ ERRO ] watchdog-foo fail on stop ("$(date)")" >> /opt/services/foo/log/foo.log
     fi
   else
-    echo "[ WARN ] watchdog-foo is already stopped ("$(date)")" >> /opt/foo/log/foo.log
+    echo "[ WARN ] watchdog-foo is already stopped ("$(date)")" >> /opt/services/foo/log/foo.log
   fi
 
   if [ "$PROCCESS" != "" ]; then
     PID=`echo $PROCCESS | cut -d " " -f2`
     kill -9 $PID
     if [ $? -eq 0 ]; then
-      echo "[ INFO ] Service foo is stopped ("$(date)")" >> /opt/foo/log/foo.log
+      echo "[ INFO ] Service foo is stopped ("$(date)")" >> /opt/services/foo/log/foo.log
     else
-      echo "[ ERRO ] Service foo fail on stop ("$(date)")" >> /opt/foo/log/foo.log
+      echo "[ ERRO ] Service foo fail on stop ("$(date)")" >> /opt/services/foo/log/foo.log
     fi
   else
-    echo "[ WARN ] Service foo is already stopped ("$(date)")" >> /opt/foo/log/foo.log
+    echo "[ WARN ] Service foo is already stopped ("$(date)")" >> /opt/services/foo/log/foo.log
   fi
 }
 
@@ -62,10 +62,10 @@ restart() {
 
 install() {
   # Create necessary directories
-  mkdir -p /opt/foo/log/
+  mkdir -p /opt/services/foo/log/
 
   # Copy all files in installation package to the path of the service
-  cp * /opt/foo/
+  cp * /opt/services/foo/
 
   # Copy the service to /usr/bin
   cp service-foo.sh /usr/bin/service-foo
@@ -91,7 +91,7 @@ uninstall() {
   rm -rf /etc/init.d/service-foo
 
   # Excluding service dir
-  cd /opt/foo/
+  cd /opt/services/foo/
   rm -rf *.sh
   cd ..
   rm -rf foo/

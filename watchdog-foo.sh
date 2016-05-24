@@ -10,7 +10,7 @@ while [ true ]; do
     MEM=`echo $PROCCESS | cut -d " " -f5`
   else
     java -jar foo.jar &
-    echo "[ INFO ] Service foo started ("$(date)")" >> /opt/foo/log/foo.log
+    echo "[ INFO ] Service foo started ("$(date)")" >> /opt/services/foo/log/foo.log
   fi
   sleep 1
 done
