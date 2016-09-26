@@ -5,8 +5,8 @@
 while [ true ]; do
   PROCCESS=`ps aux | grep serial32bits | grep -v grep | grep -v sudo`
   if [ "$PROCCESS" != "" ]; then
-    echo $PROCCESS >> /tmp/proccess-foo.log
     PID=`echo $PROCCESS | cut -d " " -f2`
+    echo $PID > /tmp/proccess-foo.pid
     MEM=`echo $PROCCESS | cut -d " " -f5`
   else
     sudo ./serial32bits &

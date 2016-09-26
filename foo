@@ -1,6 +1,6 @@
 /opt/services/foo/log/foo.log {
+  rotate 7
   daily
-  rotate 30e
   missingok
   notifempty
   create 644 root root
