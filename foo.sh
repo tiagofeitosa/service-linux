@@ -47,7 +47,7 @@ stop() {
     kill -9 $PID_WD
     if [ $? -eq 0 ]; then
       echo "[ INFO ] watchdog-foo is not running ("$(date)")" >> /opt/services/foo/log/foo.log
-      echo -e "\033[01;32m[  OK  ]\033[00;37m"
+      echo -e "\033[01;32m[  OK  ]\033[00;37m watchdog-foo was stopped"
     else
       echo "[ ERRO ] watchdog-foo fail on stop ("$(date)")" >> /opt/services/foo/log/foo.log
       echo -e "\033[01;31m[ ERRO ]\033[00;37m"
@@ -62,7 +62,7 @@ stop() {
     kill -9 $PID
     if [ $? -eq 0 ]; then
       echo "[ INFO ] Service foo is stopped ("$(date)")" >> /opt/services/foo/log/foo.log
-      echo -e "\033[01;32m[  OK  ]\033[00;37m"
+      echo -e "\033[01;32m[  OK  ]\033[00;37m foo was stopped"
     else
       echo "[ ERRO ] Service foo fail on stop ("$(date)")" >> /opt/services/foo/log/foo.log
     fi
